@@ -1,59 +1,59 @@
-# Demo123
+# Angular TODO + Express API
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.0.
+This repository contains:
 
-## Development server
+- an Angular TODO application with a clean UI
+- an Express REST API backed by SQLite
+- Google OAuth2 login (per-user TODO lists)
 
-To start a local development server, run:
+## Prerequisites
 
-```bash
-ng serve
-```
+- Node.js 20+
+- A Google OAuth2 Web Client ID
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Install
 
 ```bash
-ng generate component component-name
+npm ci
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Run the API
 
 ```bash
-ng generate --help
+GOOGLE_CLIENT_ID="<your-client-id>" npm run start:server
 ```
 
-## Building
+The API runs on `http://localhost:3000`.
 
-To build the project run:
+## Run the Angular app
 
 ```bash
-ng build
+npm run start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The app runs on `http://localhost:4200` and proxies `/api` to the Express server.
 
-## Running unit tests
+## REST API
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+All TODO endpoints require an `Authorization` header containing a Google ID token.
+
+- `GET /api/config`
+- `GET /api/me`
+- `GET /api/todos`
+- `POST /api/todos` `{ "title": "..." }`
+- `PATCH /api/todos/:id` `{ "completed": true|false }`
+- `DELETE /api/todos/:id`
+
+TODOs are scoped by the authenticated Google user (`sub` claim).
+
+## Tests
 
 ```bash
-ng test
+npm run test -- --watch=false
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Build
 
 ```bash
-ng e2e
+npm run build
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
